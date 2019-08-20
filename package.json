@@ -1,0 +1,53 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack-dev-server",
+    "django": "python ../backend/manage.py runserver &"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "@bigfinite/component-library": "^1.0.0-3",
+    "apollo-boost": "^0.4.3",
+    "graphql": "^14.4.2",
+    "graphql-tag": "^2.10.1",
+    "monaco-editor": "^0.17.1",
+    "node-fetch": "^2.6.0",
+    "react": "^16.8.6",
+    "react-apollo": "^2.5.8",
+    "react-dnd": "^9.3.2",
+    "react-dnd-html5-backend": "^9.3.2",
+    "react-dom": "^16.8.6",
+    "react-monaco-editor": "^0.28.0",
+    "react-redux": "7.1.0",
+    "react-router-dom": "5.0.1",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
+    "redux-observable": "1.1.0",
+    "resize-observer-polyfill": "^1.5.1",
+    "rxjs": "6.5.2",
+    "styled-components": "^5.0.0-beta.8",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.4",
+    "@babel/plugin-proposal-export-default-from": "^7.5.2",
+    "@babel/preset-env": "^7.5.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.1.0",
+    "html-webpack-plugin": "^4.0.0-beta.8",
+    "mini-css-extract-plugin": "^0.8.0",
+    "monaco-editor-webpack-plugin": "^1.7.0",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.7.2"
+  }
+}
