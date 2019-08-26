@@ -25,7 +25,7 @@ export default function MonacoEditor({
   options = {},
   overrideServices = {},
   droppableItems = false,
-  language = 'javascript',
+  language = 'custom-language',
   theme = 'vs',
   editorDidMount: _editorDidMount = noop,
   onChange = noop
@@ -36,7 +36,7 @@ export default function MonacoEditor({
   const subscriptionRef = useRef(null)
   const [cursor, setCursor] = useState([])
 
-  const [{ didDrop, dropItem }, dropRef = null] = droppableItems && useDrop({
+  const [{ didDrop, dropItem }, dropRef] = useDrop({
     accept: droppableItems,
     collect: monitor => ({
       didDrop: monitor.didDrop(),
@@ -44,7 +44,7 @@ export default function MonacoEditor({
     })
   })
 
-  const getModel = useCallback(() => editorRef.current.getModel())
+  const getModel = () => editorRef.current.getModel()
 
   // initialise monaco
   useEffect(() => {
@@ -81,6 +81,8 @@ export default function MonacoEditor({
   }, [options])
 
   function initMonaco() {
+    console.log(customLanguage.name, customLanguage.rules);
+    
     monaco.editor.defineTheme(
       customTheme.name, 
       customTheme.rules
@@ -125,7 +127,6 @@ export default function MonacoEditor({
   }
 
   function writeToEditor(text, range = null) {
-    console.time('monaco edit operation')
     const model = getModel()
     __prevent_trigger_change_event = true
     
@@ -137,7 +138,6 @@ export default function MonacoEditor({
     editorRef.current.pushUndoStop()
     
     __prevent_trigger_change_event = false
-    console.timeEnd('monaco edit operation')
   }
   
   function handleDragOver({ clientX, clientY }) {

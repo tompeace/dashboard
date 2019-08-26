@@ -21,7 +21,7 @@ export const Draggable = ({ children, payload }) => {
   const [{ isDragging }, drag] = useDrag({
     item: { payload, type: ItemTypes.BOX },
     collect: monitor => ({
-      isDragging: monitor.isDragging(),
+      isDragging: monitor.isDragging()
     }),
   })
 

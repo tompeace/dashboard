@@ -2,19 +2,17 @@ import React, {
   useState,
   useRef,
   createRef,
-  useLayoutEffect,
-  useMemo
+  useLayoutEffect
 } from 'react'
 import styled from 'styled-components'
 import { noop } from '@helpers'
-
 
 const Resizable = styled.div.attrs(({ height }) => ({
   style: {
     height
   }
 }))`
-  border: 1px solid gray;
+  border: 1px solid #D0D4DB;
   border-radius: 4px;
   overflow: scroll;
 `
@@ -69,9 +67,9 @@ export default function Resizer({
   const [sizes, setSizes] = useState([])
   
   const getHeight = (i) => {
+    const index = i || children.length
     const total = containerRef.current && containerRef.current.scrollHeight
-    console.log('total:', total);
-    const percentage = sizes[i] / total * 100
+    const percentage = sizes[index] / total * 100
     return total && `${percentage}%`
   }
 
@@ -84,13 +82,10 @@ export default function Resizer({
     // set sizes of elements based on percentage
   }, [sizes])
   
-  
   function handleMouseMove(i, val) {
-    const initial = getInitial(i);
-    console.log(initial);
     setSizes(prev => {
       const next = [...prev]
-      next[i] = initial + val
+      next[i] = getInitial(i) + val
       return next
     })
   }
@@ -106,7 +101,7 @@ export default function Resizer({
         const index = i + 1
         const mouseMove = handleMouseMove.bind(null, i)
         const height = getHeight(i)
-
+        console.log('height:', height);
         return index !== children.length ? (
           <div
             key={i}
@@ -115,7 +110,8 @@ export default function Resizer({
               {child}
             </Resizable>
             <Slider 
-              handleMouseMove={mouseMove} />
+              handleMouseMove={mouseMove} 
+            />
           </div>
         ) : (
           <Resizable
