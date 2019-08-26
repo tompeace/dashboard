@@ -81,8 +81,6 @@ export default function MonacoEditor({
   }, [options])
 
   function initMonaco() {
-    console.log(customLanguage.name, customLanguage.rules);
-    
     monaco.editor.defineTheme(
       customTheme.name, 
       customTheme.rules

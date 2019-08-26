@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '@bigfinite/component-library'
+import { Container, Section, Bar } from 'react-simple-resizer';
 import nanoid from 'nanoid'
 
 // import { fetchPosts } from '@store/epics/widgets'
@@ -39,6 +40,21 @@ export default function Widgets(props) {
         cancel polling
       </Button>
       <br />
+      <Container vertical style={{
+        height: "50vh",
+        userSelect: "none",
+        fontSize: "16px",
+        fontFamily: "sans-serif",
+        textAlign: "center",
+        whiteSpace: "nowrap"
+      }}>
+        <Section style={{ background: "#d3d3d3" }} />
+        <Bar style={{
+          background: "#888888",
+          cursor: "col-resize"
+        }} />
+        <Section style={{ background: "#d3d3d3" }} />
+      </Container>
     </div>
   )
 }

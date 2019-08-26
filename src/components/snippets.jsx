@@ -43,29 +43,38 @@ const TagList = ({ category, functions, handleRecentlyUsed }) => {
 
 const snippetStyles = css`
   background-color: #FFFFFF;
+  margin: 20px;
 `
 export default function Snippets() {
   const [recentlyUsed, setRecentlyUsed] = useState([])
+  const [current, setCurrent] = useState('all')
 
-  console.log(snippets);
+  const options = snippets.reduce((acc, { name }) => 
+    acc.concat({ value: name, label: name}),
+    [{value: 'all', label: 'All'}]
+  )
+  
+  const FilteredSnippets = () => snippets
+    .filter(s => current !== 'all' ? s.name === current : true)
+    .reduce((acc, { name, functions }) => acc.concat(
+      <TagList
+        key={name}
+        category={name}
+        functions={functions}
+        handleRecentlyUsed={setRecentlyUsed}
+      />
+    ), [
+      <TagList
+        key='recent'
+        category='Recently used'
+        functions={recentlyUsed}
+      />
+    ])
 
   return (
     <div css={snippetStyles}>
-      <Select />
-      {snippets.reduce((res, { name, functions }) => res.concat(
-        <TagList
-          key={name}
-          category={name}
-          functions={functions}
-          handleRecentlyUsed={setRecentlyUsed}
-        />
-      ), [
-        <TagList
-          key='recent'
-          category='Recently used'
-          functions={recentlyUsed}
-        />
-      ])}
+      <Select options={options} handleChange={setCurrent} />
+      <FilteredSnippets />
     </div>
   )
 }

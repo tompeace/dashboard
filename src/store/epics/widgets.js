@@ -5,7 +5,7 @@ import {  FETCH, FETCH_SUCCESS, FETCH_FAILED, CANCEL_POLLING } from '../actions/
 import { fetch } from '../../services'
 
 
-const POLLING_INTERVAL = 3000
+const POLLING_INTERVAL = 1000
 const url = 'https://jsonplaceholder.typicode.com/posts/1'
 
 export const fetchPosts = action$ => action$.pipe(

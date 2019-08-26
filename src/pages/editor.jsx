@@ -51,33 +51,37 @@ export default function Editor(props) {
   const leftColumn = css`
     float: left;
     width: 25%;
-    padding: 20px;
     box-sizing: border-box;
-    border-right: 1px solid #D0D4DB;
     background-color: #F5F6FA;
   `
 
   const rightColumn = css`
     float: left;
     width: 75%;
-    padding: 0 40px;
+    padding: 40px;
     box-sizing: border-box;
   `
 
-  const willNotExecute = code.length === 0 || error;
+  const disabled = code.length === 0 || error;
 
   return (
     <DndProvider>
       <div>
         <div css={leftColumn}>
-          <Resizer height='100%'>
+          <Resizer>
             <Snippets />
-            <p>
+            <Fragment>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. 
               Laudantium, quasi cupiditate. Animi possimus dolorem sapiente dolore quisquam 
               totam dignissimos nobis est! 
               Necessitatibus voluptatibus et commodi illum, possimus suscipit consectetur tempora.
-            </p>
+            </Fragment>
+            <Fragment>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+              Laudantium, quasi cupiditate. Animi possimus dolorem sapiente dolore quisquam 
+              totam dignissimos nobis est! 
+              Necessitatibus voluptatibus et commodi illum, possimus suscipit consectetur tempora.
+            </Fragment>
           </Resizer>
         </div>
         <div css={rightColumn}>
@@ -85,7 +89,7 @@ export default function Editor(props) {
             <Button
               rounded
               className='right'
-              disabled={willNotExecute}
+              disabled={disabled}
               onClick={handleRun}>
               Run
             </Button>
