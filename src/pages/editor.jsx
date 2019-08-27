@@ -66,16 +66,10 @@ export default function Editor(props) {
 
   return (
     <DndProvider>
-      <div>
+      <div style={{ height: '700px' }}>
         <div css={leftColumn}>
           <Resizer>
             <Snippets />
-            <Fragment>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-              Laudantium, quasi cupiditate. Animi possimus dolorem sapiente dolore quisquam 
-              totam dignissimos nobis est! 
-              Necessitatibus voluptatibus et commodi illum, possimus suscipit consectetur tempora.
-            </Fragment>
             <Fragment>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. 
               Laudantium, quasi cupiditate. Animi possimus dolorem sapiente dolore quisquam 
@@ -96,8 +90,6 @@ export default function Editor(props) {
           </div>
           <div className='col-12 col-right'>
             <MonacoEditor
-              width='100%'
-              height='100%'
               language='javascript'
               value={code}
               options={options}

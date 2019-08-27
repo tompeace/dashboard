@@ -14,7 +14,13 @@ const ItemTypes = {
 const StyledEditor = styled.div`
   border-radius: 4px;
   overflow: hidden;
-  border: 1px solid gray;
+  border: 1px solid #EBECF1;
+
+  .margin-view-overlays {
+    background-color: #F5F6FA;
+    border-right: #EBECF1;
+    color: gray;
+  }
 `
 
 export default function MonacoEditor({

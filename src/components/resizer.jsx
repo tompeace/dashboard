@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Container, Section, Bar } from 'react-simple-resizer';
+import { Container, Section, Bar } from 'react-simple-resizer'
 
 const barStyles = {
   borderTop: '1px solid #D0D4DB',
@@ -8,6 +8,10 @@ const barStyles = {
   width: '100%',
   cursor: 'ns-resize',
   backgroundColor: 'white'
+}
+
+const sectionStyles = {
+  overflow: 'scroll'
 }
 
 const innerBarStyles = {
@@ -25,18 +29,18 @@ export default function Resizer({ children }) {
       style={{ height: '100%' }}>
       {children.map((child, i) => {
         return i + 1 !== children.length ? (
-          <Fragment>
-            <Section key={i}>
+          <Fragment key={i}>
+            <Section styles={sectionStyles}>
               {child}
             </Section>
-            <Bar
-              key={i}
-              style={barStyles}>
-              <div style={innerBarStyles}></div>
+            <Bar style={barStyles}>
+              <div style={innerBarStyles} />
             </Bar>
           </Fragment>
         ) : (
-          <Section key={i}>
+          <Section 
+            key={i}
+            styles={sectionStyles}>
             {child}
           </Section>
         )
@@ -44,3 +48,4 @@ export default function Resizer({ children }) {
     </Container>
   )
 }
+

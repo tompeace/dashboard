@@ -6,6 +6,6 @@ const StyledSelect = styled(ReactSelect)`
   // TODO
 `
 
-export default function Select({ options }) {
-  return <StyledSelect options={options} />
+export default function Select(props) {
+  return <StyledSelect {...props} />
 }
