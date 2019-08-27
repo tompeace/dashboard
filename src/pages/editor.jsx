@@ -58,7 +58,8 @@ export default function Editor(props) {
   const rightColumn = css`
     float: left;
     width: 75%;
-    padding: 40px;
+    padding-left: 40px;
+    padding-right: 40px;
     box-sizing: border-box;
   `
 

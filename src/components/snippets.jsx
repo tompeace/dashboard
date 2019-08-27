@@ -52,7 +52,6 @@ const TagList = ({
 }
 
 const snippetStyles = css`
-  // background-color: #FFFFFF;
   margin: 20px;
 `
 const inputStyles = css`
@@ -73,21 +72,24 @@ const inputStyles = css`
 export default function Snippets() {
   const [recentlyUsed, setRecentlyUsed] = useState([])
   const [current, setCurrent] = useState('all')
+  const [search, setSearch] = useState('')
 
-  const options = snippets.reduce((acc, { name }) => 
-    acc.concat({ value: name, label: name}),
-    [{value: 'all', label: 'All'}]
-  )
+  const options = [{ value: 'all', label: 'All' }]
+    .concat(snippets.map(s => ({ 
+      value: s.name, 
+      label: s.name 
+    })))
   
-  console.log(current);
+  const byString = f => f.name.toLowerCase().includes(search)
+  const byCategory = s => current !== 'all' ? s.name === current : true
 
-  const FilteredSnippets = () => snippets
-    .filter(s => current !== 'all' ? s.name === current : true)
+  const Snippets = () => snippets
+    .filter(byCategory)
     .reduce((acc, { name, functions }) => acc.concat(
       <TagList
         key={name}
         category={name}
-        functions={functions}
+        functions={functions.filter(byString)}
         handleRecentlyUsed={setRecentlyUsed}
       />
     ), [
@@ -98,13 +100,14 @@ export default function Snippets() {
       />
     ])
   
-  function handleSelect({ value }) {
+  function handleSelect(e) {
+    const { value } = e
     setCurrent(value)
   }
   
   function handleSearch(e) {
     const { value } = e.target
-    console.log('hello', value)
+    setSearch(value)
   }
 
   return (
@@ -117,7 +120,7 @@ export default function Snippets() {
         css={inputStyles}
         placeholder='Search fx...'
         onChange={handleSearch} />
-      <FilteredSnippets />
+      <Snippets />
     </div>
   )
 }
