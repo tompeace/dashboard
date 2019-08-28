@@ -1,11 +1,30 @@
 import React from 'react'
-import styled from 'styled-components'
-import ReactSelect from 'react-select'
+import ReactSelect, { components } from 'react-select'
 
-const StyledSelect = styled(ReactSelect)`
-  // TODO
-`
+const styles = {
+  indicatorSeparator: () => false,
+  menuList: (p, s) => ({...p, marginTop: '-4px' }),
+  menu: (p, s) => ({...p, marginTop: '-1px' })
+}
+
+const items = {
+  DropdownIndicator: (props) => {
+    return (
+      <components.DropdownIndicator {...props}>
+        yolo
+      </components.DropdownIndicator>
+    )
+  },
+
+}
+
 
 export default function Select(props) {
-  return <StyledSelect {...props} />
+  return (
+    <ReactSelect 
+      components={items}
+      styles={styles} 
+      {...props} 
+    />
+  )
 }

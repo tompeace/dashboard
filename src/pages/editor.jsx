@@ -5,7 +5,6 @@ import MonacoEditor from '../components/monaco-editor'
 import { Provider as DndProvider, Draggable, Target } from '../components/dnd.jsx'
 import Snippets from '../components/snippets.jsx'
 import { css } from 'styled-components'
-import { Container, Section, Bar } from 'react-simple-resizer';
 
 
 const options = { 
@@ -27,10 +26,7 @@ export default function Editor(props) {
   const [ code, setCode ] = useState('')
   const [ result, setResult ] = useState('')
   const [ error, setError ] = useState('')
-
-  const handleMount = () => {
-    // console.log('mount:', arguments)
-  }
+  const [ selected, setSelected ] = useState('')
 
   const handleChange = (value, e) => {
     console.log('change:', value)
@@ -65,18 +61,34 @@ export default function Editor(props) {
 
   const disabled = code.length === 0 || error;
 
+  const Description = ({ name, description, args }) => name ? (
+    <div css={css`
+      padding: 20px;
+    `}>
+      <b>fx {name}</b>
+      <p>{description}</p>
+      <div style={{ fontSize: '12px' }}>
+        <p>
+          <b>{name}</b>
+          <span>{args ? `${args.map(a => a.name).join(', ')}` : ''}</span>
+        </p>
+        <ul>
+          {args && args.map(({ name, description }) => (
+            <li key={name}><em>{name}:</em> {description}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  ) : null
+
   return (
     <DndProvider>
       <div style={{ height: '700px' }}>
         <div css={leftColumn}>
           <Resizer>
-            <Snippets />
-            <Fragment>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-              Laudantium, quasi cupiditate. Animi possimus dolorem sapiente dolore quisquam 
-              totam dignissimos nobis est! 
-              Necessitatibus voluptatibus et commodi illum, possimus suscipit consectetur tempora.
-            </Fragment>
+            <Snippets 
+              onSelect={setSelected} />
+            <Description {...selected} />
           </Resizer>
         </div>
         <div css={rightColumn}>
@@ -95,7 +107,6 @@ export default function Editor(props) {
               value={code}
               options={options}
               onChange={handleChange}
-              editorDidMount={handleMount}
               droppableItems={'box'}
             />
           </div>

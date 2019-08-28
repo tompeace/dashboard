@@ -28,7 +28,8 @@ const groupName = css`
 const TagList = ({ 
   category = '', 
   functions = [], 
-  handleRecentlyUsed = noop
+  onSelect: handleClick = noop,
+  onItemDropped: handleItemDropped = noop
 }) => {
   return functions.length > 0 && (
     <div css={tagList}>
@@ -38,8 +39,10 @@ const TagList = ({
       <div>
         {functions.map(({ name, description }) => (
           <Draggable
+            id={name}
             key={name}
-            onDrop={handleRecentlyUsed}
+            onClick={handleClick}
+            onDrop={handleItemDropped}
             payload={description}>
             <div css={tag}>
               {name}
@@ -55,42 +58,46 @@ const snippetStyles = css`
   margin: 20px;
 `
 const inputStyles = css`
-  box-sizing: border-box;
-  padding: 0 0 0 10px;
-  outline: 0;
-  border: 0;
-  color: inherit;
-  border-radius: 4px;
-  border: 1px solid;
-  background-color: white;
-  background-image: none;
-  display: block;
-  width: 100%;
-  height: 34px;
-  font-size: 14px;
+  input {
+    position: relative;
+    margin-bottom: -1px;
+    box-sizing: border-box;
+    padding: 0 0 0 10px;
+    outline: 0;
+    color: inherit;
+    border-radius: 4px;
+    border: 1px solid #D0D4DB;
+    background-color: white;
+    background-image: none;
+    display: block;
+    width: 100%;
+    height: 34px;
+    font-size: 14px;
+  }
 `
-export default function Snippets() {
+export default function Snippets({ 
+  onSelect: setSelected = noop 
+}) {
   const [recentlyUsed, setRecentlyUsed] = useState([])
-  const [current, setCurrent] = useState('all')
+  const [category, setCategory] = useState('all')
   const [search, setSearch] = useState('')
 
   const options = [{ value: 'all', label: 'All' }]
-    .concat(snippets.map(s => ({ 
-      value: s.name, 
-      label: s.name 
-    })))
+    .concat(snippets.map(s => ({ value: s.name, label: s.name })))
   
-  const byString = f => f.name.toLowerCase().includes(search)
-  const byCategory = s => current !== 'all' ? s.name === current : true
+  // filters
+  const byCategory = c => category !== 'all' ? c.name === category : true
+  const byName = f => f.name.toLowerCase().includes(search)
 
-  const Snippets = () => snippets
+  const FilteredSnippets = () => snippets
     .filter(byCategory)
     .reduce((acc, { name, functions }) => acc.concat(
       <TagList
         key={name}
         category={name}
-        functions={functions.filter(byString)}
-        handleRecentlyUsed={setRecentlyUsed}
+        functions={functions.filter(byName)}
+        onSelect={viewDetails}
+        onItemDropped={setRecentlyUsed}
       />
     ), [
       <TagList
@@ -100,9 +107,10 @@ export default function Snippets() {
       />
     ])
   
-  function handleSelect(e) {
+  function selectCategory(e) {
     const { value } = e
-    setCurrent(value)
+    setSelected(false)
+    setCategory(value)
   }
   
   function handleSearch(e) {
@@ -110,17 +118,25 @@ export default function Snippets() {
     setSearch(value)
   }
 
+  function viewDetails(e) {
+    const value = snippets
+      .flatMap(s => s.functions)
+      .find(s => s.name === e.id)
+    setSelected(old => value !== old && value)
+  }
+
   return (
     <div css={snippetStyles}>
       <Select 
         options={options} 
-        onChange={handleSelect} />
+        onChange={selectCategory} />
       <br/>
-      <input
-        css={inputStyles}
-        placeholder='Search fx...'
-        onChange={handleSearch} />
-      <Snippets />
+      <div css={inputStyles}>  
+        <input
+          placeholder='Search fx...'
+          onChange={handleSearch} />
+        <FilteredSnippets />
+      </div>
     </div>
   )
 }

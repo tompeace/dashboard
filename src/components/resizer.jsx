@@ -26,7 +26,7 @@ export default function Resizer({ children }) {
   return (
     <Container 
       vertical
-      style={{ height: '100%' }}>
+      style={{ height: '700px' }}>
       {children.map((child, i) => {
         return i + 1 !== children.length ? (
           <Fragment key={i}>
