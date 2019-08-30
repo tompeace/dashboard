@@ -88,7 +88,8 @@ export default function Editor(props) {
           <Resizer>
             <Snippets 
               onSelect={setSelected} />
-            <Description {...selected} />
+            <Description 
+              {...selected} />
           </Resizer>
         </div>
         <div css={rightColumn}>

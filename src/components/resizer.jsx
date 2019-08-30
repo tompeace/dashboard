@@ -11,7 +11,7 @@ const barStyles = {
 }
 
 const sectionStyles = {
-  overflow: 'scroll'
+  height: '100%'
 }
 
 const innerBarStyles = {
@@ -23,14 +23,16 @@ const innerBarStyles = {
 }
 
 export default function Resizer({ children }) {
-  return (
+  return children.length > 1 ? (
     <Container 
       vertical
       style={{ height: '700px' }}>
       {children.map((child, i) => {
         return i + 1 !== children.length ? (
           <Fragment key={i}>
-            <Section styles={sectionStyles}>
+            <Section 
+              disableResponsive
+              style={sectionStyles}>
               {child}
             </Section>
             <Bar style={barStyles}>
@@ -46,6 +48,6 @@ export default function Resizer({ children }) {
         )
       })}
     </Container>
-  )
+  ) : children
 }
 

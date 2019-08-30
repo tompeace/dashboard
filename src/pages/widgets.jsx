@@ -39,22 +39,6 @@ export default function Widgets(props) {
         onClick={cancelPolling}>
         cancel polling
       </Button>
-      <br />
-      <Container vertical style={{
-        height: "50vh",
-        userSelect: "none",
-        fontSize: "16px",
-        fontFamily: "sans-serif",
-        textAlign: "center",
-        whiteSpace: "nowrap"
-      }}>
-        <Section style={{ background: "#d3d3d3" }} />
-        <Bar style={{
-          background: "#888888",
-          cursor: "col-resize"
-        }} />
-        <Section style={{ background: "#d3d3d3" }} />
-      </Container>
     </div>
   )
 }

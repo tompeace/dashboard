@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Button } from '@bigfinite/component-library'
 import Select from './select.jsx'
 import { Draggable } from './dnd.jsx'
 import snippets from './monaco-editor/snippets'
@@ -24,6 +25,24 @@ const groupName = css`
   font-weight: 700;
   padding: 8px 0px 8px 5px;
 `
+const snippetStyles = css`
+  margin: 20px;
+`
+const inputStyles = css`
+  position: relative;
+  margin-bottom: -1px;
+  box-sizing: border-box;
+  padding: 0 0 0 10px;
+  outline: 0;
+  color: inherit;
+  border-radius: 4px;
+  border: 1px solid #D0D4DB;
+  background-color: white;
+  background-image: none;
+  width: 100%;
+  height: 34px;
+  font-size: 14px;
+`
 
 const TagList = ({ 
   category = '', 
@@ -31,7 +50,7 @@ const TagList = ({
   onSelect: handleClick = noop,
   onItemDropped: handleItemDropped = noop
 }) => {
-  return functions.length > 0 && (
+  return functions.length > 0 && category === 'bigengine' && (
     <div css={tagList}>
       <div css={groupName}>
         {category}
@@ -54,27 +73,6 @@ const TagList = ({
   )
 }
 
-const snippetStyles = css`
-  margin: 20px;
-`
-const inputStyles = css`
-  input {
-    position: relative;
-    margin-bottom: -1px;
-    box-sizing: border-box;
-    padding: 0 0 0 10px;
-    outline: 0;
-    color: inherit;
-    border-radius: 4px;
-    border: 1px solid #D0D4DB;
-    background-color: white;
-    background-image: none;
-    display: block;
-    width: 100%;
-    height: 34px;
-    font-size: 14px;
-  }
-`
 export default function Snippets({ 
   onSelect: setSelected = noop 
 }) {
@@ -127,16 +125,20 @@ export default function Snippets({
 
   return (
     <div css={snippetStyles}>
-      <Select 
+      <Select
         options={options} 
         onChange={selectCategory} />
       <br/>
-      <div css={inputStyles}>  
-        <input
-          placeholder='Search fx...'
-          onChange={handleSearch} />
-        <FilteredSnippets />
-      </div>
+      <input
+        css={inputStyles}
+        placeholder='Search fx...'
+        onChange={handleSearch} />
+      <FilteredSnippets />
+      <Button 
+        modifier='tertiary'
+        onClick={console.log}>
+        fx insert
+      </Button>
     </div>
   )
 }
