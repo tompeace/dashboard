@@ -26,7 +26,10 @@ const groupName = css`
   padding: 8px 0px 8px 5px;
 `
 const snippetStyles = css`
-  margin: 20px;
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 `
 const inputStyles = css`
   position: relative;
@@ -50,7 +53,7 @@ const TagList = ({
   onSelect: handleClick = noop,
   onItemDropped: handleItemDropped = noop
 }) => {
-  return functions.length > 0 && category === 'bigengine' && (
+  return functions.length > 0 && (
     <div css={tagList}>
       <div css={groupName}>
         {category}
@@ -87,23 +90,33 @@ export default function Snippets({
   const byCategory = c => category !== 'all' ? c.name === category : true
   const byName = f => f.name.toLowerCase().includes(search)
 
-  const FilteredSnippets = () => snippets
-    .filter(byCategory)
-    .reduce((acc, { name, functions }) => acc.concat(
-      <TagList
-        key={name}
-        category={name}
-        functions={functions.filter(byName)}
-        onSelect={viewDetails}
-        onItemDropped={setRecentlyUsed}
-      />
-    ), [
-      <TagList
-        key='recent'
-        category='Recently used'
-        functions={recentlyUsed}
-      />
-    ])
+  const FilteredSnippets = () => (
+    <div 
+      style={{ 
+        flex: 1, 
+        overflow: 'scroll', 
+        paddingBottom: '10px' 
+      }}>
+      {snippets
+        .filter(byCategory)
+        .reduce((acc, { name, functions }) => acc.concat(
+          <TagList
+            key={name}
+            category={name}
+            functions={functions.filter(byName)}
+            onSelect={viewDetails}
+            onItemDropped={setRecentlyUsed}
+          />
+        ), [
+          <TagList
+            key='recent'
+            category='Recently used'
+            functions={recentlyUsed}
+          />
+        ]
+      )}
+    </div>
+  )
   
   function selectCategory(e) {
     const { value } = e
