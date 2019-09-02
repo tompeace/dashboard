@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react'
 import { HashRouter as Router, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { ApolloProvider } from 'react-apollo'
+import Styles from './styles.jsx'
 import store from '../store'
 import Header from '../components/header.jsx'
 import ApolloClient from 'apollo-boost'
@@ -20,6 +21,7 @@ const client = new ApolloClient({
 
 export default () => (
   <ApolloProvider client={client}>
+    <Styles />
     <Router>
       <Provider store={store}>
         <Header />

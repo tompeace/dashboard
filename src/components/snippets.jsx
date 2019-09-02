@@ -1,23 +1,23 @@
 import React, { useState } from 'react'
 import { Button } from '@bigfinite/component-library'
-import Select from './select.jsx'
+import Select from './select'
 import { Draggable } from './dnd.jsx'
 import snippets from './monaco-editor/snippets'
 import { css } from 'styled-components'
 import { noop } from '@helpers'
 
 const tag = css`
-  padding: 4px 0 4px 14px;
-  color: #4C5769;
+  padding: 4px 4px 4px 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  
   &:hover {
     background-color: #EBECF1;
+    border-color: blue;
+    cursor: pointer;
   }
 `
 const tagList = css`
-  border-left: 1px solid;
-  border-right: 1px solid;
-  border-bottom: 1px solid;
-  border-color: gray;
   background-color: white;
 `
 const groupName = css`
@@ -33,6 +33,7 @@ const snippetStyles = css`
 `
 const inputStyles = css`
   position: relative;
+  flex-shrink: 0;
   margin-bottom: -1px;
   box-sizing: border-box;
   padding: 0 0 0 10px;
@@ -46,12 +47,26 @@ const inputStyles = css`
   height: 34px;
   font-size: 14px;
 `
+const filteredStyles = css`
+  flex: 1;
+  overflow: scroll;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  border-right: 1px solid ${gray};
+  border-left: 1px solid ${gray};
+  border-bottom: 1px solid ${gray};
+`
+const buttonStyles = css`
+  flex-shrink: 0;
+`
+
 
 const TagList = ({ 
   category = '', 
   functions = [], 
   onSelect: handleClick = noop,
-  onItemDropped: handleItemDropped = noop
+  onItemDropped: handleItemDropped = noop,
+  removeRecentlyUsed: handleDeleteItem = noop
 }) => {
   return functions.length > 0 && (
     <div css={tagList}>
@@ -67,7 +82,14 @@ const TagList = ({
             onDrop={handleItemDropped}
             payload={description}>
             <div css={tag}>
-              {name}
+              <div
+                style={{ float: 'right', paddingRight: '20px' }}
+                onClick={() => handleDeleteItem(name)}>
+                X
+              </div>
+              <div style={{ overflow: 'hidden' }}>
+                {name}
+              </div>
             </div>
           </Draggable>
         ))}
@@ -76,27 +98,19 @@ const TagList = ({
   )
 }
 
-export default function Snippets({ 
-  onSelect: setSelected = noop 
-}) {
+const FilteredSnippets = ({ 
+  snippets = [], 
+  search = '', 
+  category = '', 
+  viewDetails = noop
+}) => {
   const [recentlyUsed, setRecentlyUsed] = useState([])
-  const [category, setCategory] = useState('all')
-  const [search, setSearch] = useState('')
-
-  const options = [{ value: 'all', label: 'All' }]
-    .concat(snippets.map(s => ({ value: s.name, label: s.name })))
-  
-  // filters
+  const removeRecentlyUsed = n => setRecentlyUsed(old => old.filter(o => o !== n))
   const byCategory = c => category !== 'all' ? c.name === category : true
   const byName = f => f.name.toLowerCase().includes(search)
 
-  const FilteredSnippets = () => (
-    <div 
-      style={{ 
-        flex: 1, 
-        overflow: 'scroll', 
-        paddingBottom: '10px' 
-      }}>
+  return (
+    <div css={filteredStyles}>
       {snippets
         .filter(byCategory)
         .reduce((acc, { name, functions }) => acc.concat(
@@ -112,11 +126,22 @@ export default function Snippets({
             key='recent'
             category='Recently used'
             functions={recentlyUsed}
+            onRemove={removeRecentlyUsed}
           />
         ]
       )}
     </div>
   )
+}
+
+export default function Snippets({ 
+  onSelect: setSelected = noop 
+}) {
+  const [category, setCategory] = useState('all')
+  const [search, setSearch] = useState('')
+
+  const options = [{ value: 'all', label: 'All' }]
+    .concat(snippets.map(s => ({ value: s.name, label: s.name })))
   
   function selectCategory(e) {
     const { value } = e
@@ -146,8 +171,13 @@ export default function Snippets({
         css={inputStyles}
         placeholder='Search fx...'
         onChange={handleSearch} />
-      <FilteredSnippets />
-      <Button 
+      <FilteredSnippets 
+        snippets={snippets} 
+        search={search} 
+        category={category} 
+        viewDetails={viewDetails} />
+      <Button
+        css={buttonStyles}
         modifier='tertiary'
         onClick={console.log}>
         fx insert

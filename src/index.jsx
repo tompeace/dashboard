@@ -6,4 +6,4 @@ import App from './app/app.jsx'
 
 const root = document.getElementById('root')
 
-render(<App callback={() => console.log('passed function from dom')}/>, root)
+render(<App />, root)
