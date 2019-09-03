@@ -7,9 +7,6 @@ import styled from 'styled-components'
 import * as customTheme from './theme'
 import * as customLanguage from './language'
 
-const ItemTypes = {
-  EDITOR_ITEM: 'box'
-}
 
 const StyledEditor = styled.div`
   border-radius: 4px;
@@ -146,6 +143,10 @@ export default function MonacoEditor({
   
   function handleDragOver({ clientX, clientY }) {
     setCursor([clientX, clientY])
+  }
+
+  function handleInsert({  }) {
+
   }
   
   return (

@@ -22,11 +22,11 @@ const innerBarStyles = {
   backgroundColor: 'gray'
 }
 
-export default function Resizer({ children }) {
+export default function Resizer({ children, height = '100%' }) {
   return children.length > 1 ? (
     <Container 
       vertical
-      style={{ height: '700px' }}>
+      style={{ height }}>
       {children.map((child, i) => {
         return i + 1 !== children.length ? (
           <Fragment key={i}>
