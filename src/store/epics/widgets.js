@@ -16,7 +16,7 @@ export const fetchPosts = action$ => action$.pipe(
         from(fetch(url)).pipe(
           map(data => ({
             type: FETCH_SUCCESS,
-            payload: { data, id: action.payload.id }
+            payload: { data, id: action.id }
           })),
           map(data => ({
             type: 'INCREMENT'
@@ -24,7 +24,7 @@ export const fetchPosts = action$ => action$.pipe(
           catchError(error =>
             of({
               type: FETCH_FAILED,
-              payload: { error, id: action.payload.id }
+              payload: { error, id: action.id }
             })
           )
         )
@@ -35,7 +35,7 @@ export const fetchPosts = action$ => action$.pipe(
           filter(stopAction => {
             console.log(stopAction);
             return stopAction.payload
-              ? stopAction.payload.id === action.payload.id
+              ? stopAction.id === action.id
               : true;
           })
         )

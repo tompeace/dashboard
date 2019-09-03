@@ -1,20 +1,24 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '@bigfinite/component-library'
-import { Container, Section, Bar } from 'react-simple-resizer';
+import Widget from '../components/widget.jsx'
+import Modal from '../components/modal.jsx'
 import nanoid from 'nanoid'
 
-// import { fetchPosts } from '@store/epics/widgets'
-import { pingEpic } from '@store/epics'
 
 export default function Widgets(props) {
   const dispatch = useDispatch()
   const counter = useSelector(s => s.counter)
+  const widgets = useSelector(s => s.widgets)
 
   const incrementCount = () => dispatch({ type: 'INCREMENT' })
-  const fetchPosts = () => dispatch({ type: 'FETCH', payload: { id: nanoid() }})
+  const fetchPosts = () => dispatch({ type: 'FETCH', id: nanoid() })
   const cancelPolling = () => dispatch({ type: 'CANCEL_POLLING' })
   const ping = () => dispatch({ type: 'PING' })
+
+  const Widgets = () => {
+    return widgets.map(w => <Widget key={w.name} {...w} />)
+  }
 
   return (
     <div>
@@ -39,6 +43,8 @@ export default function Widgets(props) {
         onClick={cancelPolling}>
         cancel polling
       </Button>
+      <Widgets />
+      <Modal />
     </div>
   )
 }
