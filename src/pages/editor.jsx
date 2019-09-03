@@ -10,6 +10,8 @@ const editorOptions = {
   selectOnLineNumbers: true,
   selectionHighlight: false,
   overviewRulerBorder: false,
+  overviewRulerLanes: false,
+  fontFamily: 'Roboto Mono',
   glyphMarginWidth: 100,
   minimap: {
     enabled: false
@@ -64,7 +66,9 @@ export default function Editor(props) {
   const [ error, setError ] = useState('')
   const [ selected, setSelected ] = useState('')
 
-  const handleRun = () => {
+  const disabled = code.length === 0 || error;
+
+  function handleRun() {
     try {
       const evaluated = eval(code)
       setResult(evaluated)
@@ -75,14 +79,17 @@ export default function Editor(props) {
     }
   }
 
-  const disabled = code.length === 0 || error;
+  function handleInsert() {
+
+  }
 
   return (
     <DndProvider>
       <div>
         <div css={leftColumn}>
           <Resizer>
-            <Snippets 
+            <Snippets
+              onInsert={handleInsert}
               onSelect={setSelected} />
             <Description 
               {...selected} />

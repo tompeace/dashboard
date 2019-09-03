@@ -5,6 +5,7 @@ export default createGlobalStyle`
     --blue: 
   }
   @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,700&display=swap');
   body { 
     margin: 0; 
     color: #4C5769; 

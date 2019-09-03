@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import widgetsReducer from './widgets'
+import uiReducer from './ui'
 
 import {
   INCREMENT,
@@ -33,5 +34,6 @@ export const pingReducer = (state = { isPinging: false }, action) => {
 export default combineReducers({
   counter: incrementReducer,
   ping: pingReducer,
-  widgets: widgetsReducer
+  widgets: widgetsReducer,
+  ui: uiReducer
 })

@@ -15,10 +15,10 @@ export default function Widgets(props) {
   const fetchPosts = () => dispatch({ type: 'FETCH', id: nanoid() })
   const cancelPolling = () => dispatch({ type: 'CANCEL_POLLING' })
   const ping = () => dispatch({ type: 'PING' })
+  const openModal = () => dispatch({ type: 'MODAL_OPEN' })
 
-  const Widgets = () => {
-    return widgets.map(w => <Widget key={w.name} {...w} />)
-  }
+  const Widgets = () => widgets
+    .map(w => <Widget key={w.name} {...w} />)
 
   return (
     <div>
@@ -44,7 +44,15 @@ export default function Widgets(props) {
         cancel polling
       </Button>
       <Widgets />
-      <Modal />
+      <Modal>
+        <h1>
+          Modal yolo!
+        </h1>
+      </Modal>
+      <Button 
+        onClick={openModal}>
+        cancel polling
+      </Button>
     </div>
   )
 }

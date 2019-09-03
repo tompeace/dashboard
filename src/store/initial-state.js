@@ -1,6 +1,9 @@
 export default {
     counter: 0,
     ping: false,
+    ui: {
+        modals: false
+    },
     widgets: [
         {
             'id': 'dKyW-th6FzFw5sq3Fh3Ay',

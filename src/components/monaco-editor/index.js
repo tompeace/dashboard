@@ -86,16 +86,6 @@ export default function MonacoEditor({
   function initMonaco() {
     monaco.languages.register({ id: customLanguage.name });
 
-    monaco.editor.defineTheme(
-      customTheme.name, 
-      customTheme.rules
-    )
-
-    monaco.languages.registerCompletionItemProvider(
-      customLanguage.name, 
-      customLanguage.rules
-    )
-
     monaco.languages.setMonarchTokensProvider(customLanguage.name, {
       tokenizer: {
         root: [
@@ -106,6 +96,16 @@ export default function MonacoEditor({
         ]
       }
     });
+
+    monaco.editor.defineTheme(
+      customTheme.name, 
+      customTheme.rules
+    )
+
+    monaco.languages.registerCompletionItemProvider(
+      customLanguage.name, 
+      customLanguage.rules
+    )
 
     if (editorRef.current) {
       editorRef.current = monaco.editor.create(
