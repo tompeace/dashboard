@@ -84,6 +84,8 @@ export default function MonacoEditor({
   }, [options])
 
   function initMonaco() {
+    monaco.languages.register({ id: customLanguage.name });
+
     monaco.editor.defineTheme(
       customTheme.name, 
       customTheme.rules
@@ -93,6 +95,17 @@ export default function MonacoEditor({
       customLanguage.name, 
       customLanguage.rules
     )
+
+    monaco.languages.setMonarchTokensProvider(customLanguage.name, {
+      tokenizer: {
+        root: [
+          [/\[error.*/, "custom-error"],
+          [/\[notice.*/, "custom-notice"],
+          [/\[info.*/, "custom-info"],
+          [/\[[a-zA-Z 0-9:]+\]/, "custom-date"],
+        ]
+      }
+    });
 
     if (editorRef.current) {
       editorRef.current = monaco.editor.create(

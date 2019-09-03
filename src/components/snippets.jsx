@@ -6,6 +6,9 @@ import snippets from './monaco-editor/snippets'
 import { css } from 'styled-components'
 import { noop } from '@helpers'
 
+const gray = '#D0D4DB'
+const blue = '#0095F2'
+
 const tag = css`
   padding: 4px 4px 4px 14px;
   text-overflow: ellipsis;
@@ -82,14 +85,7 @@ const TagList = ({
             onDrop={handleItemDropped}
             payload={description}>
             <div css={tag}>
-              <div
-                style={{ float: 'right', paddingRight: '20px' }}
-                onClick={() => handleDeleteItem(name)}>
-                X
-              </div>
-              <div style={{ overflow: 'hidden' }}>
-                {name}
-              </div>
+              {name}
             </div>
           </Draggable>
         ))}
