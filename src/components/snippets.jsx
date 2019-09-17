@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Button } from '@bigfinite/component-library'
 import Select from './select'
 import { Draggable } from './dnd.jsx'
 import snippets from './monaco-editor/snippets'
@@ -171,12 +170,11 @@ export default function Snippets({
         search={search} 
         category={category} 
         viewDetails={viewDetails} />
-      <Button
+      <button
         css={buttonStyles}
-        modifier='tertiary'
         onClick={console.log}>
         fx insert
-      </Button>
+      </button>
     </div>
   )
 }

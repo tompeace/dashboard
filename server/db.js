@@ -2,28 +2,52 @@ const { Database, aql } = require("arangojs");
 const db = new Database();
 const faker = require('faker')
 
+const renameKey = (
+	oldProp,
+	newProp,
+	{ [oldProp]: old, ...others }
+) => ({
+	[newProp]: old,
+	...others
+});
+
+const normalizeID = obj => renameKey('_id', 'id', obj)
+
 const update = collection => id => async data => {
 	const _collection = await db.collection(collection)
-	return _collection.update(id, data)
+	const document = await _collection.update(id, data, { returnNew: true })
+	return normalizeID(document.new)
 }
 
 const create = collection => async data => {
-	const _collection = await db.collection(collection)
-	return await _collection.save(data)
+	try {
+		const _collection = await db.collection(collection)
+		const document = await _collection.save(data)
+		return normalizeID(document)
+	} catch (error) {
+		throw new Error(error)
+	}
 }
 
 const get = collection => async id => {
 	const _collection = await db.collection(collection)
 	if (!id) {
 		const cursor = await _collection.all() 
-		return cursor.all()
+		const all = await cursor.all()
+		return all.map(d => normalizeID(d))
 	}
-	return _collection.document(id)
+	const document = await _collection.document(id)
+	return normalizeID(document)
 }
 
 const remove = collection => async id => {
-	const _collection = await db.collection(collection)
-	return _collection.remove(id)
+	try {
+		const _collection = await db.collection(collection)
+		const document = await _collection.remove(id)
+		return true
+	} catch (error) {
+		return false
+	}
 }
 
 const model = collection => ({
@@ -45,4 +69,33 @@ module.exports = {
 	get,
 	remove,
 	model
+}
+
+
+
+
+const pluralize = require('pluralize')
+const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1)
+
+const makeResolvers = collection => {
+	if (typeof collection !== 'string') return
+
+	try {
+		const Model = model(collection)
+		const name = capitalize(collection)
+		
+		return {
+			queries: {
+				[`get${name}`]: (p, { id }) => Model.get(id),
+				[`getAll${pluralize(name)}`]: () => Model.get()
+			},
+			mutations: {
+				[`create${name}`]: (p, { id, ...args }) => Model.create({ ...args }),
+				[`update${name}`]: (p, { id, ...args }) => Model.update(id)(args),
+				[`remove${name}`]: (p, { id }) => Model.remove(id),
+			}
+		}
+	} catch (error) {
+		return error
+	}
 }

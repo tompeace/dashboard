@@ -1,5 +1,4 @@
 import React, { useState, Fragment } from 'react'
-import { Button } from '@bigfinite/component-library'
 import Resizer from '../components/resizer.jsx'
 import MonacoEditor from '../components/monaco-editor'
 import { Provider as DndProvider } from '../components/dnd.jsx'
@@ -97,13 +96,12 @@ export default function Editor(props) {
         </div>
         <div css={rightColumn}>
           <div className='col-12 col pb2'>
-            <Button
-              rounded
+            <button
               className='right'
               disabled={disabled}
               onClick={handleRun}>
               Run
-            </Button>
+            </button>
           </div>
           <div 
             style={{ height: '700px' }} 

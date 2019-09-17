@@ -1,11 +1,11 @@
 const { ApolloServer, gql } = require('apollo-server-express');
-const { get, create, update, model } = require('./db.js')
+const users = require('./users')
 
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
 
 	type User {
-		_id: ID
+		id: ID
 		_key: ID
 		firstName: String
 		lastName: String
@@ -14,13 +14,13 @@ const typeDefs = gql`
 	}
 
   type Query {
-		hello: String
-		user(_id: ID!): User
+		user(id: ID!): User
 		users: [User]
 	}
 
   type Mutation {
     createUser(
+			id: ID
 			firstName: String
 			lastName: String
 			email: String
@@ -28,6 +28,7 @@ const typeDefs = gql`
 		): User!
 
 		updateUser(
+			id: ID!
 			firstName: String
 			lastName: String
 			email: String
@@ -35,26 +36,19 @@ const typeDefs = gql`
 		): User!
 
 		removeUser(
-			_id: ID
-		): User!
+			id: ID!
+		): Boolean
 	}
 `;
 
-const Users = model('users')
 
-// Provide resolver functions for your schema fields
 const resolvers = {
 	Query: {
-		user: async (p, { _id }) => await Users.get(_id),
-		users: async () => await Users.get()
+		...users.queries
 	},
 	Mutation: {
-		createUser: (p, args) => Users.create(args),
-		updateUser: (p, { _id, ...args}) => Users.update(_id)(args),
-		removeUser: (p, { _id }) => Users.remove(_id),
+		...users.mutations
 	}
 };
 
-const graphql = new ApolloServer({ typeDefs, resolvers });
-
-module.exports = graphql;
+module.exports = new ApolloServer({ typeDefs, resolvers })

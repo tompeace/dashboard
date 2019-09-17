@@ -3,7 +3,7 @@ const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-
+const apollo = require('./server/schema')
 
 module.exports = {
   mode: 'development',
@@ -38,12 +38,14 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
-    port: 8081
+    port: 8081,
+    before: app => apollo.applyMiddleware({ app })
   },
   resolve: {
     alias: {
       '@helpers': path.resolve(__dirname, './src/helpers/'),
-      '@store': path.resolve(__dirname, './src/store/')
+      '@store': path.resolve(__dirname, './src/store/'),
+      '@constants': path.resolve(__dirname, './src/constants/')
     }
   },
   plugins: [
@@ -53,7 +55,6 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './index.html'
-    }),
-    new MonacoWebpackPlugin()
+    })
   ]
 };

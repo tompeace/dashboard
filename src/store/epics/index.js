@@ -1,5 +1,5 @@
 import { combineEpics } from 'redux-observable'
-import { fetchPosts } from './widgets'
+import { fetchPosts, receiveData } from './widgets'
 import { filter, mapTo, delay } from 'rxjs/operators'
 
 export const pingEpic = action$ => action$.pipe(
@@ -10,6 +10,7 @@ export const pingEpic = action$ => action$.pipe(
 
 export const epics = {
   fetchPosts,
+  receiveData,
   pingEpic
 }
 

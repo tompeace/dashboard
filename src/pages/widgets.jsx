@@ -1,6 +1,5 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button } from '@bigfinite/component-library'
 import Widget from '../components/widget.jsx'
 import Modal from '../components/modal.jsx'
 import nanoid from 'nanoid'
@@ -24,35 +23,35 @@ export default function Widgets(props) {
     <div>
       <h3>Widgets</h3>
       <p>{counter}</p>
-      <Button 
+      <button 
         onClick={incrementCount}>
         increase
-      </Button>
+      </button>
       <br />
-      <Button 
+      <button 
         onClick={fetchPosts}>
         fetch posts
-      </Button>
+      </button>
       <br />
-      <Button 
+      <button 
         onClick={ping}>
         ping
-      </Button>
+      </button>
       <br />
-      <Button 
+      <button 
         onClick={cancelPolling}>
         cancel polling
-      </Button>
+      </button>
       <Widgets />
       <Modal>
         <h1>
           Modal yolo!
         </h1>
       </Modal>
-      <Button 
+      <button 
         onClick={openModal}>
         cancel polling
-      </Button>
+      </button>
     </div>
   )
 }

@@ -11,6 +11,5 @@ export default produce((draft = {}, { type, ...payload }) => {
     default:
       break
   }
-
   return draft
 })

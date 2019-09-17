@@ -1,5 +1,9 @@
 export const WIDGET_ADD = 'WIDGET_ADD'
 export const WIDGET_REMOVE = 'WIDGET_REMOVE'
+export const WIDGET_CONNECT = 'WIDGET_CONNECT'
+
+export const SOCKET_SUCCESS = 'SOCKET_SUCCESS'
+export const SOCKET_FAILURE = 'SOCKET_FAILURE'
 
 export const FETCH = 'FETCH'
 export const FETCH_SUCCESS = 'FETCH_STATUS_SUCCESS'
